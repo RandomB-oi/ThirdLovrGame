@@ -32,6 +32,30 @@ module.__index = function(self, index)
     return module.new(table.unpack(componentOrder))
 end
 
+module.__newindex = function(self, index, value)
+    if rawequal(self, module) then
+        rawset(self, index, value)
+        return
+    end
+
+    if type(index) == "number" then
+        rawset(self, index, value)
+    else
+        -- local orderValue = table.find(vectorComponentOrder, index:lower())
+        -- if orderValue then
+        --     rawset(self, orderValue, value)
+        -- end
+        
+        local valIsNumber = type(value) == "number"
+        for i = 1, index:len() do
+            local orderValue = table.find(vectorComponentOrder, index:sub(i,i):lower())
+            if orderValue then
+                rawset(self, orderValue, valIsNumber and value or value[i])
+            end
+        end
+    end
+end
+
 module.new = function(...)
 	local self = setmetatable({...}, module)
 	return self
@@ -55,7 +79,7 @@ function module:Unit()
 end
 
 function module:Copy()
-	return module.new(table.unpack(self))
+	return module.new(self:Unpack())
 end
 
 function module:__add(other)
@@ -91,7 +115,7 @@ function module:__mul(other)
         end
     else
         for i, v in ipairs(other) do
-            new[i] = new[i] * other
+            new[i] = new[i] * v
         end
     end
    
@@ -106,7 +130,7 @@ function module:__div(other)
         end
     else
         for i, v in ipairs(other) do
-            new[i] = new[i] * other
+            new[i] = new[i] * v
         end
     end
    
@@ -151,11 +175,15 @@ local defaultVectors = {
 }
 
 function module:GetQuat()
-    return lovr.math.newQuat(table.unpack(self))
+    return lovr.math.newQuat(self:Unpack())
 end
 
 function module:GetVector()
-    return defaultVectors[#self](table.unpack(self))
+    return defaultVectors[#self](self:Unpack())
+end
+
+function module:Unpack()
+    return table.unpack(self)
 end
 
 return module

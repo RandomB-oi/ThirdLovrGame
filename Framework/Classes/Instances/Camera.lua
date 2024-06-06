@@ -9,13 +9,13 @@ module.new = function(...)
 	self.Fov = math.rad(70)
 	self.NearPlane = 0.01
 
-	self.UpVector = lovr.math.newVec3(0, 1, 0)
-	self.Position = lovr.math.newVec3(0, 3, 4)
+	self.UpVector = Vector.new(0, 1, 0)
+	self.Position = Vector.new(0, 0, 0)
 	self.Radius = 0.1
 
 	self.Sensitivity = 1.0
 
-	self.RenderPosition = lovr.math.newVec3(0, 0, 0)
+	self.RenderPosition = Vector.new(0, 0, 0)
 
 	self.Rotation = {
 		x = math.pi/2,
@@ -25,7 +25,7 @@ module.new = function(...)
 	self.MinAngle = 0.01
 	self.MaxAngle = math.pi - 0.01
 
-	self.Pose = lovr.math.newMat4():target(self.RenderPosition, self.Position, self.UpVector)
+	self.Pose = lovr.math.newMat4():target(self.RenderPosition:GetVector(), self.Position:GetVector(), self.UpVector:GetVector())
 	self.Projection = nil
 	self:UpdateProjection()
 
@@ -43,7 +43,7 @@ function module:Turn(deltaX, deltaY)
 	self.RenderPosition.y = self.Position.y + self.Radius * math.cos(self.Rotation.x)
 	self.RenderPosition.z = self.Position.z + self.Radius * math.sin(self.Rotation.x) * math.sin(self.Rotation.y)
 
-	self.Pose:target(self.RenderPosition, self.Position, self.UpVector)
+	self.Pose:target(self.RenderPosition:GetVector(), self.Position:GetVector(), self.UpVector:GetVector())
 end
 
 function module:UpdateProjection()

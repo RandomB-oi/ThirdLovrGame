@@ -8,6 +8,7 @@ module.new = function(...)
     self.Position = Vector.new(0, 0, 0)
     self.Size = Vector.new(1, 1, 1)
     self.Orientation = Vector.new(0, 0, 0, 0)
+    self.Color = Vector.new(1, 1, 1, 1)
 
     self.Maid:GiveTask(self.Maid:GiveTask(self.Scene.Draw:Connect(function(pass)
         self:Render(pass)
@@ -17,7 +18,7 @@ module.new = function(...)
 end
 
 function module:Render(pass)
-    pass:setColor(1,1,1,1)
+    pass:setColor(self.Color:Unpack())
     pass:box(self.Position:GetVector(), self.Size:GetVector(), self.Orientation:GetQuat(), "fill")
 end
 

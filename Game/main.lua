@@ -6,19 +6,7 @@ local light = {
     Color = Vector.new(1,1,1, 2),
 }
 
-local skybox = lovr.graphics.newTexture(
-    {
-        right = 'Game/Textures/sky512_rt.png',
-        left = 'Game/Textures/sky512_lf.png',
-        top = 'Game/Textures/sky512_up.png',
-        bottom = 'Game/Textures/sky512_dn.png',
-        back = 'Game/Textures/sky512_bk.png',
-        front = 'Game/Textures/sky512_ft.png'
-    },
-    {type = "cube"}
-)
-
-local function ApplyShaders(pass)
+local function MainShaderPass(pass)
     pass:setShader(shader)
     pass:send('ambience', { 70/255, 70/255, 70/255, 1.0 })
     pass:send('fogColor', { 147/255, 204/255, 234/255, 1.0 })
@@ -33,20 +21,16 @@ local function ApplyShaders(pass)
     pass:send("screenHeight", height)
 end
 
-LovrDraw:Connect(function(pass)
-    pass:skybox(skybox)
-    ApplyShaders(pass)
-end)
-
-
-
 local mainScene = Instance.new("Scene", "MainScene")
 mainScene:Enable()
 mainScene:Unpause()
+mainScene.ApplyShader = MainShaderPass
 
+mainScene.Camera.Position.z = 3
+mainScene.Camera.Rotation.y = math.pi/2
 
-local part = Instance.new("BasePart", mainScene)
+local part1 = Instance.new("BasePart", mainScene)
+-- part1.Color = Vector.new(1,0,0, 1)
 
-
-
-local firstVector = Vector.new(10,20,30,40)
+part1.Color.yz = Vector.new(0, 0)
+part1.Position = Vector.new(0, 0, 0)

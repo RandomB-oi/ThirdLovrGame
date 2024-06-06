@@ -6,5 +6,16 @@
     "Lua.diagnostics.disable": [
         "undefined-field",
         "deprecated"
-    ]
+    ],
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.workspace.library": [
+        "${3rd}/lovr/library"
+    ],
+    "Lua.runtime.special": {
+        "love.filesystem.load": "loadfile"
+    },
+    "lövelauncher.path": "C:\\Program Files\\lovr\\lovr.exe",
+    "lövelauncher.saveAllOnLaunch": true,
+    "lövelauncher.useConsoleSubsystem": true,
+    "Lua.workspace.checkThirdParty": "Disable"
 }

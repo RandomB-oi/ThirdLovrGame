@@ -1,7 +1,7 @@
 function lovr.load()
     require("Framework/main")
     require("Game/main")
-
+    
     function lovr.update(dt)
         LovrUpdate:Fire(dt)
     end
