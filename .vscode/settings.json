@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "lovr",
+        "typeof"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-field",
+        "deprecated"
+    ]
+}
