@@ -15,7 +15,7 @@ module.__index = function(self, index)
         return moduleHas
     end
 
-    if type(index) == "number" then
+    if isNumber(index) then
         return rawget(self, index)
     end
 
@@ -38,7 +38,7 @@ module.__newindex = function(self, index, value)
         return
     end
 
-    if type(index) == "number" then
+    if isNumber(index) then
         rawset(self, index, value)
     else
         -- local orderValue = table.find(vectorComponentOrder, index:lower())
@@ -46,7 +46,7 @@ module.__newindex = function(self, index, value)
         --     rawset(self, orderValue, value)
         -- end
         
-        local valIsNumber = type(value) == "number"
+        local valIsNumber = isNumber(value)
         for i = 1, index:len() do
             local orderValue = table.find(vectorComponentOrder, index:sub(i,i):lower())
             if orderValue then
@@ -109,7 +109,7 @@ end
 function module:__mul(other)
     local new = self:Copy()
 
-    if type(other) == "number" then
+    if isNumber(other) then
         for i, v in ipairs(new) do
             new[i] = new[i] * other
         end
@@ -124,7 +124,7 @@ end
 
 function module:__div(other)
     local new = self:Copy()
-    if type(other) == "number" then
+    if isNumber(other) then
         for i, v in ipairs(new) do
             new[i] = new[i] * other
         end
