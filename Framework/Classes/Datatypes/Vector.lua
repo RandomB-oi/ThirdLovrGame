@@ -6,7 +6,10 @@ local function isNumber(x)
 end
 
 local vectorComponentOrder = {
-    "x","y","z","w"
+    ["x"] = 1,
+    ["y"] = 2,
+    ["z"] = 3,
+    ["w"] = 4,
 }
 
 module.__index = function(self, index)
@@ -21,7 +24,7 @@ module.__index = function(self, index)
 
     local componentOrder = {}
     for i = 1, index:len() do
-        local orderValue = table.find(vectorComponentOrder, index:sub(i,i):lower())
+        local orderValue = vectorComponentOrder[index:sub(i,i):lower()]
         if orderValue then
             componentOrder[i] = self[orderValue]
         end
@@ -41,14 +44,9 @@ module.__newindex = function(self, index, value)
     if isNumber(index) then
         rawset(self, index, value)
     else
-        -- local orderValue = table.find(vectorComponentOrder, index:lower())
-        -- if orderValue then
-        --     rawset(self, orderValue, value)
-        -- end
-        
         local valIsNumber = isNumber(value)
         for i = 1, index:len() do
-            local orderValue = table.find(vectorComponentOrder, index:sub(i,i):lower())
+            local orderValue = vectorComponentOrder[index:sub(i,i):lower()]
             if orderValue then
                 rawset(self, orderValue, valIsNumber and value or value[i])
             end
